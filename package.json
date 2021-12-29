@@ -10,5 +10,10 @@
   "license": "ISC",
   "devDependencies": {
     "parcel": "^2.0.1"
+  },
+  "dependencies": {
+    "@types/react": "^17.0.38",
+    "hyperapp": "^2.0.20",
+    "hyperlit": "^0.3.6"
   }
 }
