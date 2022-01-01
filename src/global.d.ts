@@ -1,1 +1,1 @@
-declare module 'hyperlit';
+declare module "hyperlit";

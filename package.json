@@ -4,12 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel src/index.html -p 8081",
+    "build": "parcel build",
+    "prettier:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,json}\"",
+    "prettier:fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json}\"",
+    "eslint:check": "eslint \"src/**/*.{js,jsx,ts,tsx,json}\"",
+    "eslint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx,json}\""
   },
   "author": "Vik",
   "license": "ISC",
   "devDependencies": {
-    "parcel": "^2.0.1"
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "eslint": "^8.5.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "parcel": "^2.0.1",
+    "prettier": "2.5.1"
   },
   "dependencies": {
     "@types/react": "^17.0.38",
