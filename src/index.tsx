@@ -9,6 +9,19 @@ const fetchJson = (dispatch: Function, options: { url: string; action: Function 
 
 const jsonFetcher = (url: string, action: Function) => [fetchJson, { url, action }];
 
+const keydownSubscriber = (dispatch: Function, options: { key: string; action: Function }) => {
+  const handler = (ev: KeyboardEvent) => {
+    if (ev.key !== options.key) return;
+    dispatch(options.action);
+  };
+  // eslint-disable-next-line no-restricted-globals
+  addEventListener("keydown", handler);
+  // eslint-disable-next-line no-restricted-globals
+  return () => removeEventListener("keydown", handler);
+};
+
+const onKeyDown = (key: string, action: Function) => [keydownSubscriber, { key, action }];
+
 // --- COMPONENTS ---
 
 const person = (props: {
@@ -51,7 +64,7 @@ const ToggleHighLight = (state: { highlight: boolean[] }, index: number) => {
 
 const Select = (state: { ids: number[] }, selected: number) => [
   { ...state, selected },
-  jsonFetcher(`https://jsonplaceholder.typicode.com/posts/${state.ids[selected]}`, GotBio),
+  jsonFetcher(`https://jsonplaceholder.typicode.com/users/${state.ids[selected]}`, GotBio),
 ];
 
 const GotNames = (state: [], data: []) => ({
@@ -60,6 +73,16 @@ const GotNames = (state: [], data: []) => ({
   ids: data.slice(0, 5).map((x: { id: number }) => x.id),
   highlight: [false, false, false, false, false],
 });
+
+const SelectUp = (state: { selected: number }) => {
+  if (state.selected === null) return state;
+  return [Select, state.selected - 1];
+};
+
+const SelectDown = (state: { selected: number }) => {
+  if (state.selected === null) return state;
+  return [Select, state.selected + 1];
+};
 
 // --- RUN ---
 
@@ -80,5 +103,12 @@ app({
     )}
     ${state.bio && personBio({ textProp: state.bio })}
   </main>`,
+  subscriptions: (state) => [
+    state.selected !== null && state.selected > 0 && onKeyDown("ArrowUp", SelectUp),
+
+    state.selected !== null &&
+      state.selected < state.ids.length - 1 &&
+      onKeyDown("ArrowDown", SelectDown),
+  ],
   node: document.getElementById("app")!,
 });
