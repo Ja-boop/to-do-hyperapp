@@ -37,6 +37,7 @@ const person = (props: {
   <p>${props.nameProp}</p>
   <input
     type="checkbox"
+    class="checkbox-test"
     checked=${props.booleanProp}
     onclick=${(_: [], event: Event) => {
       event.stopPropagation();
