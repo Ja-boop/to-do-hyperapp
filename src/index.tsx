@@ -1,7 +1,13 @@
 import { app } from "hyperapp";
 import html from "hyperlit";
 import IState from "./interfaces/IState";
-import { GotNames, ToggleHighLight, Select } from "./ui/actions/actions";
+import {
+  GotNames,
+  ToggleHighLight,
+  Select,
+  SelectDown,
+  SelectUp,
+} from "./ui/actions/actions";
 import { jsonFetcher } from "./ui/effects/effects";
 
 const keydownSubscriber = (
