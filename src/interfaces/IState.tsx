@@ -1,5 +1,5 @@
 export default interface IState {
-  names: null | [];
+  names: string[];
   highlight: [] | boolean[];
   selected: number | null;
   bio: null | string;

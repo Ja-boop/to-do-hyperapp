@@ -1,5 +1,7 @@
 import { app } from "hyperapp";
 import html from "hyperlit";
+import IState from "./interfaces/IState";
+import { GotNames } from "./ui/actions/actions";
 
 const fetchJson = (dispatch: Function, options: { url: string; action: Function }) => {
   fetch(options.url)
@@ -68,13 +70,6 @@ const Select = (state: { ids: number[] }, selected: number) => [
   jsonFetcher(`https://jsonplaceholder.typicode.com/users/${state.ids[selected]}`, GotBio),
 ];
 
-const GotNames = (state: [], data: []) => ({
-  ...state,
-  names: data.slice(0, 5).map((x: { name: string }) => x.name),
-  ids: data.slice(0, 5).map((x: { id: number }) => x.id),
-  highlight: [false, false, false, false, false],
-});
-
 const SelectUp = (state: { selected: number }) => {
   if (state.selected === null) return state;
   return [Select, state.selected - 1];
@@ -87,11 +82,16 @@ const SelectDown = (state: { selected: number }) => {
 
 // --- RUN ---
 
+const baseState: IState = {
+  names: [],
+  highlight: [],
+  selected: null,
+  bio: null,
+  ids: [],
+};
+
 app({
-  init: [
-    { names: [], highlight: [], selected: null, bio: "", ids: [] },
-    jsonFetcher(`https://jsonplaceholder.typicode.com/users`, GotNames),
-  ],
+  init: [baseState, jsonFetcher(`https://jsonplaceholder.typicode.com/users`, GotNames)],
   view: (state) => html` <main>
     ${state.names.map((name, index) =>
       person({
