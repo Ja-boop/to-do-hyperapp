@@ -21,10 +21,7 @@ export const GotNames: Action<IState, any> = (state, data) => {
   };
 };
 
-export const ToggleHighLight = (
-  state: { highlight: boolean[] },
-  index: number
-) => {
+export const ToggleHighLight: Action<IState, any> = (state, index) => {
   const highlight = [...state.highlight];
 
   highlight[index] = !highlight[index];
@@ -32,7 +29,7 @@ export const ToggleHighLight = (
   return { ...state, highlight };
 };
 
-export const Select = (state: { ids: number[] }, selected: number) => [
+export const Select: Action<IState, any> = (state, selected) => [
   { ...state, selected },
   jsonFetcher(
     `https://jsonplaceholder.typicode.com/users/${state.ids[selected]}`,
@@ -40,12 +37,12 @@ export const Select = (state: { ids: number[] }, selected: number) => [
   ),
 ];
 
-export const SelectUp = (state: { selected: number }) => {
+export const SelectUp: Action<IState> = (state) => {
   if (state.selected === null) return state;
   return [Select, state.selected - 1];
 };
 
-export const SelectDown = (state: { selected: number }) => {
+export const SelectDown: Action<IState> = (state) => {
   if (state.selected === null) return state;
   return [Select, state.selected + 1];
 };
