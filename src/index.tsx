@@ -4,7 +4,10 @@ import IState from "./interfaces/IState";
 import { GotNames, ToggleHighLight, Select } from "./ui/actions/actions";
 import { jsonFetcher } from "./ui/effects/effects";
 
-const keydownSubscriber = (dispatch: Function, options: { key: string; action: Function }) => {
+const keydownSubscriber = (
+  dispatch: Function,
+  options: { key: string; action: Function }
+) => {
   const handler = (ev: KeyboardEvent) => {
     if (ev.key !== options.key) return;
     dispatch(options.action);
@@ -15,7 +18,10 @@ const keydownSubscriber = (dispatch: Function, options: { key: string; action: F
   return () => removeEventListener("keydown", handler);
 };
 
-const onKeyDown = (key: string, action: Function) => [keydownSubscriber, { key, action }];
+const onKeyDown = (key: string, action: Function) => [
+  keydownSubscriber,
+  { key, action },
+];
 
 // --- COMPONENTS ---
 
@@ -26,7 +32,11 @@ const person = (props: {
   selectedProp: boolean;
   onSelectProp: [Function, number];
 }) => html` <div
-  class=${{ person: true, highlight: props.booleanProp, selected: props.selectedProp }}
+  class=${{
+    person: true,
+    highlight: props.booleanProp,
+    selected: props.selectedProp,
+  }}
   onclick=${props.onSelectProp}
 >
   <p>${props.nameProp}</p>
@@ -72,7 +82,9 @@ app({
     ${state.bio && personBio({ textProp: state.bio })}
   </main>`,
   subscriptions: (state) => [
-    state.selected !== null && state.selected > 0 && onKeyDown("ArrowUp", SelectUp),
+    state.selected !== null &&
+      state.selected > 0 &&
+      onKeyDown("ArrowUp", SelectUp),
 
     state.selected !== null &&
       state.selected < state.ids.length - 1 &&
