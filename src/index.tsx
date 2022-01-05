@@ -10,27 +10,7 @@ import {
   SelectUp,
 } from "./ui/actions/actions";
 import { jsonFetcher } from "./ui/effects/effects";
-
-const keydownSubscriber = (
-  dispatch: Function,
-  options: { key: string; action: Function }
-) => {
-  const handler = (ev: KeyboardEvent) => {
-    if (ev.key !== options.key) return;
-    dispatch(options.action);
-  };
-  // eslint-disable-next-line no-restricted-globals
-  addEventListener("keydown", handler);
-  // eslint-disable-next-line no-restricted-globals
-  return () => removeEventListener("keydown", handler);
-};
-
-const onKeyDown = (key: string, action: Function) => [
-  keydownSubscriber,
-  { key, action },
-];
-
-// --- RUN ---
+import { onKeyDown } from "./ui/subscriptions/subscriptions";
 
 const baseState: IState = {
   names: [],
