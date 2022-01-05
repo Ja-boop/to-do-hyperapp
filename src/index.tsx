@@ -1,6 +1,7 @@
 import { app } from "hyperapp";
 import html from "hyperlit";
 import IState from "./interfaces/IState";
+import { person, personBio } from "./ui/components/components";
 import {
   GotNames,
   ToggleHighLight,
@@ -28,37 +29,6 @@ const onKeyDown = (key: string, action: Function) => [
   keydownSubscriber,
   { key, action },
 ];
-
-// --- COMPONENTS ---
-
-const person = (props: {
-  booleanProp: boolean;
-  ontoggleProp: [Function, number];
-  nameProp: string;
-  selectedProp: boolean;
-  onSelectProp: [Function, number];
-}) => html` <div
-  class=${{
-    person: true,
-    highlight: props.booleanProp,
-    selected: props.selectedProp,
-  }}
-  onclick=${props.onSelectProp}
->
-  <p>${props.nameProp}</p>
-  <input
-    type="checkbox"
-    class="checkbox-test"
-    checked=${props.booleanProp}
-    onclick=${(_: [], event: Event) => {
-      event.stopPropagation();
-      return props.ontoggleProp;
-    }}
-  />
-</div>`;
-
-const personBio = (props: { textProp: string }) =>
-  html` <div class="bio">${props.textProp}</div>`;
 
 // --- RUN ---
 
