@@ -1,7 +1,7 @@
 import { app } from "hyperapp";
 import html from "hyperlit";
 import IState from "./interfaces/IState";
-import { GotNames } from "./ui/actions/actions";
+import { GotNames, ToggleHighLight, Select } from "./ui/actions/actions";
 
 const fetchJson = (dispatch: Function, options: { url: string; action: Function }) => {
   fetch(options.url)
@@ -48,37 +48,8 @@ const person = (props: {
   />
 </div>`;
 
-const personBio = (props: { textProp: string }) => html` <div class="bio">${props.textProp}</div>`;
-
-// --- ACTIONS ---
-
-const GotBio = (state: [], data: { company: { bs: string } }) => ({
-  ...state,
-  bio: data.company.bs,
-});
-
-const ToggleHighLight = (state: { highlight: boolean[] }, index: number) => {
-  const highlight = [...state.highlight];
-
-  highlight[index] = !highlight[index];
-
-  return { ...state, highlight };
-};
-
-const Select = (state: { ids: number[] }, selected: number) => [
-  { ...state, selected },
-  jsonFetcher(`https://jsonplaceholder.typicode.com/users/${state.ids[selected]}`, GotBio),
-];
-
-const SelectUp = (state: { selected: number }) => {
-  if (state.selected === null) return state;
-  return [Select, state.selected - 1];
-};
-
-const SelectDown = (state: { selected: number }) => {
-  if (state.selected === null) return state;
-  return [Select, state.selected + 1];
-};
+const personBio = (props: { textProp: string }) =>
+  html` <div class="bio">${props.textProp}</div>`;
 
 // --- RUN ---
 
@@ -91,7 +62,10 @@ const baseState: IState = {
 };
 
 app({
-  init: [baseState, jsonFetcher(`https://jsonplaceholder.typicode.com/users`, GotNames)],
+  init: [
+    baseState,
+    jsonFetcher(`https://jsonplaceholder.typicode.com/users`, GotNames),
+  ],
   view: (state) => html` <main>
     ${state.names.map((name, index) =>
       person({
