@@ -2,14 +2,7 @@ import { app } from "hyperapp";
 import html from "hyperlit";
 import IState from "./interfaces/IState";
 import { GotNames, ToggleHighLight, Select } from "./ui/actions/actions";
-
-const fetchJson = (dispatch: Function, options: { url: string; action: Function }) => {
-  fetch(options.url)
-    .then((response) => response.json())
-    .then((data) => dispatch(options.action, data));
-};
-
-const jsonFetcher = (url: string, action: Function) => [fetchJson, { url, action }];
+import { jsonFetcher } from "./ui/effects/effects";
 
 const keydownSubscriber = (dispatch: Function, options: { key: string; action: Function }) => {
   const handler = (ev: KeyboardEvent) => {
